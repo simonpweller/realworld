@@ -1,4 +1,5 @@
 import { AppProps } from "next/app";
+import { SWRConfig } from "swr";
 import Head from "next/head";
 import { makeServer } from "../server";
 
@@ -6,6 +7,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   if (process.env.NODE_ENV === "development") {
     makeServer({ environment: "development" });
   }
+
+  const fetcher = async (input: RequestInfo, init: RequestInit) => {
+    const res = await fetch(input, init);
+    return res.json();
+  };
 
   return (
     <>
@@ -27,7 +33,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           href="https://demo.productionready.io/main.css"
         />
       </Head>
-      <Component {...pageProps} />
+      <SWRConfig value={{ fetcher }}>
+        <Component {...pageProps} />
+      </SWRConfig>
     </>
   );
 }

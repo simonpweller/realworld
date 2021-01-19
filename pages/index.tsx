@@ -1,24 +1,17 @@
-import { useEffect, useState } from "react";
 import ArticlePreview from "../components/ArticlePreview";
-import { Article, ArticlesResponse } from "../models";
+import { ArticlesResponse } from "../models";
+import useSWR from "swr";
 
 export default function Home(): JSX.Element {
-  const [articles, setArticles] = useState<Article[]>([]);
+  const { data, error } = useSWR<ArticlesResponse>(
+    "https://conduit.productionready.io/api/articles"
+  );
 
-  async function fetchArticles() {
-    const response: ArticlesResponse = await fetch(
-      "https://conduit.productionready.io/api/articles"
-    ).then((res) => res.json());
-    setArticles(response.articles);
-  }
-
-  useEffect(() => {
-    fetchArticles();
-  }, []);
-
+  if (!data) return <div>Loading...</div>;
+  if (error) return <div>Failed to fetch articles</div>;
   return (
     <div>
-      {articles.map((article) => (
+      {data.articles.map((article) => (
         <ArticlePreview article={article} />
       ))}
     </div>
