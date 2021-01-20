@@ -1,19 +1,26 @@
-import ArticlePreview from "../components/ArticlePreview";
-import { ArticlesResponse } from "../models";
-import useSWR from "swr";
+import Sidebar from "../components/Sidebar";
+import ArticlePreviewList from "../components/ArticlePreviewList";
 
 export default function Home(): JSX.Element {
-  const { data, error } = useSWR<ArticlesResponse>(
-    "https://conduit.productionready.io/api/articles"
-  );
-
-  if (!data) return <div>Loading...</div>;
-  if (error) return <div>Failed to fetch articles</div>;
   return (
-    <div>
-      {data.articles.map((article) => (
-        <ArticlePreview article={article} />
-      ))}
+    <div className="home-page">
+      <div className="banner">
+        <div className="container">
+          <h1 className="logo-font">conduit</h1>
+          <p>A place to share your knowledge.</p>
+        </div>
+      </div>
+
+      <div className="container page">
+        <div className="row">
+          <div className="col-md-9">
+            <ArticlePreviewList />
+          </div>
+          <div className="col-md-3">
+            <Sidebar />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

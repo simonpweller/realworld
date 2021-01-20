@@ -1,6 +1,10 @@
 export interface ArticlesResponse {
   articles: Article[];
-  articleCount: number;
+  articlesCount: number;
+}
+
+export interface TagsResponse {
+  tags: string[];
 }
 
 export interface Article {

@@ -1,4 +1,5 @@
 import { createServer, Model } from "miragejs";
+import { ArticlesResponse, TagsResponse } from "./models";
 
 export function makeServer({ environment }: { environment: string }) {
   return createServer({
@@ -12,7 +13,7 @@ export function makeServer({ environment }: { environment: string }) {
       this.namespace = "api";
 
       this.get("/articles", () => {
-        return {
+        const articlesResponse: ArticlesResponse = {
           articles: [
             {
               slug: "how-to-train-your-dragon",
@@ -51,6 +52,14 @@ export function makeServer({ environment }: { environment: string }) {
           ],
           articlesCount: 2,
         };
+        return articlesResponse;
+      });
+
+      this.get("/tags", () => {
+        let tagsResponse: TagsResponse = {
+          tags: ["reactjs", "angularjs"],
+        };
+        return tagsResponse;
       });
     },
   });
