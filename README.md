@@ -3,6 +3,11 @@ It implements a frontend for the [RealWorld app / Conduit](https://github.com/go
 
 ## Local set up
 
+Create a service worker (only needed once) with 
+```bash
+npx msw init public/
+```
+
 Run the development server with
 ```bash
 npm run dev
